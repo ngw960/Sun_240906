@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <style>
+        /* 스타일링 */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            display: flex;
+            background-color: #333;
+            justify-content: space-around;
+            padding: 14px 0;
+        }
+        .navbar a {
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .navbar a:hover {
+            background-color: #575757;
+        }
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+        .login-form {
+            margin-top: 20px;
+            display: inline-block;
+            text-align: left;
+        }
+        .login-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .login-form input {
+            display: block;
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 100%;
+        }
+        .login-form button {
+            padding: 10px 15px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .login-form button:hover {
+            background-color: #575757;
+        }
+        .services {
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .services h2 {
+            margin-bottom: 20px;
+        }
+        .services .service-list {
+            display: flex;
+            justify-content: space-around;
+        }
+        .services .service-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: 30%;
+            text-align: center;
+        }
+        .services .service-item h3 {
+            margin-top: 0;
+        }
+        .services .service-item a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .services .service-item a:hover {
+            background-color: #575757;
+        }
+        /* 고정 오른쪽 메뉴 스타일 */
+        .fixed-menu {
+            position: fixed;
+            top: 20px;
+            right: 0;
+            background-color: #333;
+            width: 60px;
+            border-radius: 0 0 8px 8px;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .fixed-menu a {
+            display: block;
+            color: white;
+            padding: 45px 0; /* 세로 공간을 3배로 늘림 */
+            text-decoration: none;
+            border-bottom: 1px solid #444; /* 메뉴 항목 사이에 구분선 */
+            font-size: 14px;
+        }
+        .fixed-menu a:hover {
+            background-color: #575757;
+        }
+        .fixed-menu a:last-child {
+            border-bottom: none; /* 마지막 메뉴 항목에는 구분선 제거 */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 상단 메뉴 -->
+    <div class="navbar">
+        <a href="/">main</a>
+        <a href="/2222">2222</a>
+        <a href="/3333">3333</a>
+        <a href="/4444">4444</a>
+        <a href="/5555">5555</a>
+    </div>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="content">
+        <h1>Welcome to the Main Page</h1>
+        <p>asdfljwaelfkjsaldkjflawkjeflkjsaldfjlawjelfjsaldfjeoiwaqjgwlkajfoawiej</p>
+
+        <!-- 로그인 폼 -->
+        <div class="login-form">
+            <h2>Login</h2>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Login</button>
+            </form>
+            <p>
+                <a href="{% url 'signup' %}">Sign Up</a>  <!-- 회원가입 버튼 -->
+            </p>
+        </div>
+
+    <!-- 자주 이용하는 서비스 섹션 -->
+    <div class="services">
+        <h2>회원님들이 자주 이용하는 서비스</h2>
+        <div class="service-list">
+            <div class="service-item">
+                <h3>Service 1</h3>
+                <p>Description for service 1.</p>
+                <a href="/service1">Go to Service 1</a>
+            </div>
+            <div class="service-item">
+                <h3>Service 2</h3>
+                <p>Description for service 2.</p>
+                <a href="/service2">Go to Service 2</a>
+            </div>
+            <div class="service-item">
+                <h3>Service 3</h3>
+                <p>Description for service 3.</p>
+                <a href="/service3">Go to Service 3</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 고정 오른쪽 메뉴 -->
+    <div class="fixed-menu">
+        <a href="/mypage">마이 페이지</a>
+        <a href="/quick_menu2">Quick menu2</a> <!-- 고정 오른쪽 메뉴 2 (이름 정하기) --> 
+        <a href="/quick_menu3">Quick menu3</a> <!-- 고정 오른쪽 메뉴 3 (이름 정하기) -->
+        <a href="/quick_menu4">Quick menu4</a> <!-- 고정 오른쪽 메뉴 4 (이름 정하기) -->
+        <a href="/quick_menu5">Quick menu5</a> <!-- 고정 오른쪽 메뉴 5 (이름 정하기) -->
+    </div>
+
+</body>
+</html>
