@@ -11,21 +11,20 @@
     <!-- 상단 -->
     <div class="navbar">
         <div class="left-menu">
-            <a href="/">메인화면</a>
+            <a href="{% url '메인페이지' %}">메인화면</a>
         </div>
         <div class="right-menu">
-            <a href="/login">로그인/회원가입</a>
+            <a href="{% url '로그인' %}">로그인/회원가입</a>
         </div>
     </div>
 
     <div class="top-navbar">
-        <a href="/main_list_1">메인목록1</a>
-        <a href="/main_list_2">메인목록2</a>
-        <a href="/main_list_3">메인목록3</a>
-        <a href="/main_list_4">메인목록4</a>
-        <a href="/main_list_5">메인목록5</a>
+        <a href="{% url '메인 목록1' %}">메인목록1</a>
+        <a href="{% url '메인 목록2' %}">메인목록2</a>
+        <a href="{% url '메인 목록3' %}">메인목록3</a>
+        <a href="{% url '메인 목록4' %}">메인목록4</a>
+        <a href="{% url '메인 목록5' %}">메인목록5</a>
     </div>
-
 
     <!-- 중앙 -->
     <div class="content">
@@ -34,7 +33,6 @@
 
         <!-- 1) 모아보기 구역 -->
         <div class="info-section">
-
             <!-- 구역1 -->
             <div class="info-item-1">
                 <h2>1. 전력 사용량</h2>
@@ -54,11 +52,10 @@
                     <button type="submit">로그인</button>
                 </form>
                 <p>
-                    <a href="{% url 'signup' %}">회원가입</a>
+                    <a href="{% url '회원가입' %}">회원가입</a>
                 </p>
             </div>
         </div>
-
 
         <!-- 2) 즐겨찾기 -->
         <div class="bookmark">
@@ -68,29 +65,29 @@
                 <div class="bookmark-item">
                     <h3>즐겨찾기 1</h3>
                     <p>즐겨찾기1에 대한 세부 내용을 간단히 적어주세요.</p>
-                    <a href="/bookmark1">즐겨찾기1 이동버튼</a>
+                    <a href="{% url '즐겨찾기 1' %}">즐겨찾기1 이동버튼</a>
                 </div>
                 <!-- 구역3 -->
                 <div class="bookmark-item">
                     <h3>즐겨찾기 2</h3>
                     <p>즐겨찾기2에 대한 세부 내용을 간단히 적어주세요.</p>
-                    <a href="/bookmark2">즐겨찾기2 이동버튼</a>
+                    <a href="{% url '즐겨찾기 2' %}">즐겨찾기2 이동버튼</a>
                 </div>
                 <!-- 구역3 -->
                 <div class="bookmark-item">
                     <h3>즐겨찾기 3</h3>
                     <p>즐겨찾기3에 대한 세부 내용을 간단히 적어주세요.</p>
-                    <a href="/bookmark3">즐겨찾기3 이동버튼</a>
+                    <a href="{% url '즐겨찾기 3' %}">즐겨찾기3 이동버튼</a>
                 </div>
             </div>
         </div>
 
         <!-- 바로가기 메뉴 -->
         <div class="fixed-menu">
-            <a href="/mypage">마이 페이지</a>
-            <a href="/panel_info">패널 정보</a>
-            <a href="/Last_accessed">최근 접속</a>
-            <a href="/contact_us">문의 방법</a>
+            <a href="{% url '마이페이지' %}">마이 페이지</a>
+            <a href="{% url '패널정보' %}">패널 정보</a>
+            <a href="{% url '최근접속' %}">최근 접속</a>
+            <a href="{% url '문의방법' %}">문의 방법</a>
             <!-- 하단에 top/down 버튼 추가 -->
             <div class="top-bottom-buttons">
                 <a href="#" onclick="scrollToTop()">top</a>
@@ -100,13 +97,11 @@
 
     </div>
 
-
     <!-- 하단 메뉴 -->
     <footer>
-        <a href="/privacy">개인정보 처리 방침</a>
-        <a href="/terms">이용약관</a>
-        <a href="/sitemap">사이트맵</a>
-        <a href="/address">주소</a>
+        <a href="{% url '개인정보 처리방침' %}">개인정보 처리 방침</a>
+        <a href="{% url '이용약관' %}">이용약관</a>
+        <a href="{% url '사이트맵' %}">사이트맵</a>
 
         <!-- 문의처(이메일) -->
         <div class="footer-email">

@@ -1,8 +1,6 @@
 from django.urls import path
 from . import views
 
-#---------------------------------------------------------------
-
 urlpatterns = [
     # 메인 페이지
     path('', views.main_view, name='메인페이지'),
@@ -41,4 +39,16 @@ urlpatterns = [
     # 회원정보 찾기
     path('find_id/', views.find_id_view, name='아이디 찾기'),
     path('find_pw/', views.find_pw_view, name='비밀번호 찾기'),
+    
+    # 마이페이지 - 회원
+    path('mypage_mypage/', views.mypage_mypage_view, name='마이페이지 홈'),
+    path('search_user/', views.search_user_view, name='회원정보조회'),
+    path('confirm_pw_user/', views.confirm_pw_user_view, name='본인확인_회원'),
+    path('modify_user/', views.modify_user_view, name='회원정보수정'),
+    
+    # 마이페이지 - 패널
+    path('search_panel/', views.search_panel_view, name='패널정보조회'),
+    path('confirm_pw_panel/', views.confirm_pw_panel_view, name='본인확인_패널'),
+    path('modify_panel/', views.modify_panel_view, name='패널정보수정'),
+    
 ]

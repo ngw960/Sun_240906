@@ -1,3 +1,4 @@
 from django.contrib import admin
+from .models import SignUp_User
 
-# Register your models here.
+admin.site.register(SignUp_User)

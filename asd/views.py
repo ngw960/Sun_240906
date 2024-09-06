@@ -1,56 +1,55 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from .models import User
-from .forms import SignUpForm
-from .forms import LoginForm
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from .models import SignUp_User  # 모델 이름 변경
+from .forms import SignUpForm, LoginForm, PanelForm
 
 #---------------------------------------------------------------
 
 ## 메인페이지
 def main_view(request):
     form = LoginForm()
-    return render(request, 'main.html', {'form': form})
+    return render(request, 'asd/main/basic/main.html', {'form': form})
 
 ## 메인페이지 - 상단 (목록)
 def main_list_1_view(request):
-    return render(request, 'main_list_1.html')  # 메인 목록1
+    return render(request, 'asd/main/list/main_list_1.html')  # 메인 목록1
 def main_list_2_view(request):
-    return render(request, 'main_list_2.html')  # 메인 목록2
+    return render(request, 'asd/main/list/main_list_2.html')  # 메인 목록2
 def main_list_3_view(request):
-    return render(request, 'main_list_3.html')  # 메인 목록3
+    return render(request, 'asd/main/list/main_list_3.html')  # 메인 목록3
 def main_list_4_view(request):
-    return render(request, 'main_list_4.html')  # 메인 목록4
+    return render(request, 'asd/main/list/main_list_4.html')  # 메인 목록4
 def main_list_5_view(request):
-    return render(request, 'main_list_5.html')  # 메인 목록5
-
+    return render(request, 'asd/main/list/main_list_5.html')  # 메인 목록5
 
 ## 즐겨찾기
 def bookmark_1_view(request):
-    return render(request, 'bookmark_1.html')  # 즐겨찾기 1
+    return render(request, 'asd/main/bookmark/bookmark_1.html')  # 즐겨찾기 1
 def bookmark_2_view(request):
-    return render(request, 'bookmark_2.html')  # 즐겨찾기 2
+    return render(request, 'asd/main/bookmark/bookmark_2.html')  # 즐겨찾기 2
 def bookmark_3_view(request):
-    return render(request, 'bookmark_3.html') # 즐겨찾기 3
-
+    return render(request, 'asd/main/bookmark/bookmark_3.html')  # 즐겨찾기 3
 
 ## 바로가기
 def quick_mypage_view(request):  # 마이페이지           
-    return render(request, 'mypage_mypage.html')
+    return render(request, 'asd/main/mypage/user/mypage_mypage.html')
 def quick_panel_view(request):  # 패널정보
-    return render(request, 'mypage_panel.html')
+    return render(request, 'asd/main/mypage/panel/mypage_panel.html')
 def quick_recent_view(request):  # 최근접속 
-    return render(request, 'main_recent.html')
+    return render(request, 'asd/main/basic/main_recent.html')
 def quick_contact_view(request):  # 문의방법
-    return render(request, 'main_contact.html')
-
+    return render(request, 'asd/main/basic/main_contact.html')
 
 ## 메인페이지 - 하단 (정보)
 def down_privacy_view(request):  # 개인정보 처리방침        
-    return render(request, 'down_privacy.html')
+    return render(request, 'asd/main/down/down_privacy.html')
 def down_terms_view(request):  # 이용약관         
-    return render(request, 'down_terms.html')
+    return render(request, 'asd/main/down/down_terms.html')
 def down_sitemap_view(request):  # 사이트맵        
-    return render(request, 'down_sitemap.html')
+    return render(request, 'asd/main/down/down_sitemap.html')
 
 #---------------------------------------------------------------
 
@@ -61,25 +60,32 @@ def signup_view(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            return redirect('로그인')  # 수정된 이름에 맞춰서 변경해 주세요.
     else:
         form = SignUpForm()
     
     return render(request, 'asd/user/basic/signup.html', {'form': form})
 
 # 중복확인_아이디
+@csrf_exempt
 def signup_duplicate_id(request):
-    username = request.GET.get('username', None)
-    if username and User.objects.filter(username=username).exists():
-        return JsonResponse({'exists': True})
-    return JsonResponse({'exists': False})
+    if request.method == 'POST':
+        username = request.POST.get('username', None)
+        if username and SignUp_User.objects.filter(username=username).exists():
+            return JsonResponse({'exists': True})
+        return JsonResponse({'exists': False})
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 # 중복확인_이메일
+@csrf_exempt
 def signup_duplicate_email(request):
-    useremail = request.GET.get('email', None)
-    if useremail and User.objects.filter(email=useremail).exists():
-        return JsonResponse({'exists': True})
-    return JsonResponse({'exists': False})
+    if request.method == 'POST':
+        useremail = request.POST.get('email', None)
+        if useremail and SignUp_User.objects.filter(email=useremail).exists():
+            return JsonResponse({'exists': True})
+        return JsonResponse({'exists': False})
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
 #---------------------------------------------------------------
 
 ## 로그인
@@ -92,25 +98,61 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                return redirect('메인페이지')  # 수정된 이름에 맞춰서 변경해 주세요.
             else:
                 form.add_error(None, 'Invalid credentials')
     else:
         form = LoginForm()
-    return render(request, 'login.html', {'form': form})
-
+    return render(request, 'asd/user/basic/login.html', {'form': form})
 
 ## 회원정보 찾기
 def find_id_view(request):  # 아이디 찾기      
-    return render(request, 'find_id.html')
+    return render(request, 'asd/user/find/find_id.html')
 def find_pw_view(request):  # 비밀번호 찾기      
-    return render(request, 'find_pw.html')
-
-## 마이페이지
-# 마이페이지 홈
-# 회원정보 조회
-# 회원정보 수정 - 본인확인(비밀번호 입력)
-# 회원정보 수정 - 수정 페이지
+    return render(request, 'asd/user/find/find_pw.html')
 
 #---------------------------------------------------------------
 
+## 마이페이지
+
+## 마이페이지 홈
+@login_required
+def mypage_mypage_view(request):
+    return render(request, 'asd/mypage/user/mypage_mypage.html')
+
+## 마이페이지 - 회원
+# 회원정보 조회
+@login_required
+def search_user_view(request):
+    return render(request, 'asd/mypage/user/search_user.html')
+
+# 회원정보 수정 - 본인확인(비밀번호 입력)
+@login_required
+def confirm_pw_user_view(request):
+    return render(request, 'asd/mypage/user/confirm_pw_user.html')
+
+# 회원정보 수정 - 수정 페이지
+@login_required
+def modify_user_view(request):
+    return render(request, 'asd/mypage/user/modify_user.html')
+
+
+## 마이페이지 - 패널
+
+# 패널정보조회
+@login_required
+def search_panel_view(request):
+    return render(request, 'asd/mypage/panel/search_panel.html')
+
+#본인확인_패널
+@login_required
+def confirm_pw_panel_view(request):
+    return render(request, 'asd/mypage/panel/confirm_pw_panel.html')
+
+#패널정보수정
+@login_required
+def modify_panel_view(request):
+    return render(request, 'asd/mypage/panel/modify_panel.html')
+
+
+#---------------------------------------------------------------
