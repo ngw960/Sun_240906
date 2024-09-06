@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+</head>
+<body>
+    <a href="/">main</a>
+    <div class="signup-container">
+        <h2>회원가입</h2>
+        <form action="/register/seller/action" method="POST" id="signupForm">
+            {% csrf_token %}
+            <div class="row">
+                <input type="text" id="id" name="id" placeholder="아이디" pattern="[a-z0-9]+" title="아이디는 소문자와 숫자만 가능합니다" autofocus>
+                <button type="button" onclick="signup_duplicate_id()">아이디 중복 확인</button>
+                <p id="id_result"></p>
+            </div>
+            <input type="password" id="password" name="pw" placeholder="비밀번호" required>
+            <br>
+            <input type="password" id="confirmPassword" placeholder="비밀번호 확인" required>
+            <br>
+            <input type="text" id="nm" name="nm" placeholder="이름" required>
+            <div class="row">
+                <input type="email" id="email" name="email" placeholder="이메일" required>
+                <button type="button" onclick="signup_duplicate_email()">이메일 중복 확인</button>
+                <p id="email_result"></p>
+            </div>
+            <div class="c-container">
+                <input type="text" id="phone1" name="phone_1" maxlength="3" placeholder="010" required>
+                <span>-</span>
+                <input type="text" id="phone2" name="phone_2" maxlength="4" placeholder="0000" required>
+                <span>-</span>
+                <input type="text" id="phone3" name="phone_3" maxlength="4" placeholder="0000" required>
+            </div>
+            <div class="address-container">
+                <input type="text" id="address" name="address" placeholder="주소" required>
+                <button type="button" onclick="openDaumPostcode()">주소 찾기</button>
+            </div>
+            <input type="text" id="address_detail" name="address_detail" placeholder="상세주소" required>
+            <br>
+            <button type="submit">가입하기</button>
+        </form>
+    </div>
+
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        function openDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    document.getElementById('address').value = data.address;
+                }
+            }).open();
+        }
+
+        function signup_duplicate_id() {
+            var id = document.getElementById('id').value;
+            var result = document.getElementById('id_result');
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/check-username/?username=' + encodeURIComponent(id), true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.exists) {
+                            result.textContent = '이미 존재하는 아이디입니다.';
+                            result.style.color = 'red';
+                        } else {
+                            result.textContent = '사용 가능한 아이디입니다.';
+                            result.style.color = 'green';
+                        }
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function signup_duplicate_email() {
+            var email = document.getElementById('email').value;
+            var result = document.getElementById('email_result');
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/check-email/?email=' + encodeURIComponent(email), true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.exists) {
+                            result.textContent = '이미 존재하는 이메일입니다.';
+                            result.style.color = 'red';
+                        } else {
+                            result.textContent = '사용 가능한 이메일입니다.';
+                            result.style.color = 'green';
+                        }
+                    }
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
