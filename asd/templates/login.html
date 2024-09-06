@@ -6,6 +6,7 @@
     <title>Login</title>
 </head>
 <body>
+    <a href="/">main</a>
     <h2>Login</h2>
     <form method="POST">
         {% csrf_token %}
@@ -13,7 +14,9 @@
         <button type="submit">Login</button>
     </form>
     <p>
-        <a href="{% url 'signup' %}">Sign Up</a>  <!-- 회원가입 버튼 -->
+        <a href="/signup">Sign Up</a>  <!-- 회원가입 버튼 -->
+        <a href="/find_id_pw">ID/PW 찾기</a>
     </p>
 </body>
 </html>
+
