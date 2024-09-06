@@ -19,7 +19,6 @@ urlpatterns = [
     
     # 바로가기
     path('mypage/', views.quick_mypage_view, name='마이페이지'),
-    path('panel/', views.quick_panel_view, name='패널정보'),
     path('recent/', views.quick_recent_view, name='최근접속'),
     path('contact/', views.quick_contact_view, name='문의방법'),
     
@@ -30,9 +29,7 @@ urlpatterns = [
     
     # 회원가입
     path('signup/', views.signup_view, name='회원가입'),
-    path('signup_duplicate_id/', views.signup_duplicate_id, name='아이디 중복확인'),
-    path('signup_duplicate_email/', views.signup_duplicate_email, name='이메일 중복확인'),
-    
+
     # 로그인
     path('login/', views.login_view, name='로그인'),
     
@@ -43,12 +40,10 @@ urlpatterns = [
     # 마이페이지 - 회원
     path('mypage_mypage/', views.mypage_mypage_view, name='마이페이지 홈'),
     path('search_user/', views.search_user_view, name='회원정보조회'),
-    path('confirm_pw_user/', views.confirm_pw_user_view, name='본인확인_회원'),
     path('modify_user/', views.modify_user_view, name='회원정보수정'),
     
     # 마이페이지 - 패널
     path('search_panel/', views.search_panel_view, name='패널정보조회'),
-    path('confirm_pw_panel/', views.confirm_pw_panel_view, name='본인확인_패널'),
     path('modify_panel/', views.modify_panel_view, name='패널정보수정'),
     
 ]

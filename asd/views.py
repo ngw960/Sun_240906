@@ -1,10 +1,10 @@
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
-from .models import SignUp_User  # 모델 이름 변경
-from .forms import SignUpForm, LoginForm, PanelForm
+
+from asd.forms import LoginForm, PanelForm
+from .models import Panel
 
 #---------------------------------------------------------------
 
@@ -34,10 +34,9 @@ def bookmark_3_view(request):
     return render(request, 'asd/main/bookmark/bookmark_3.html')  # 즐겨찾기 3
 
 ## 바로가기
-def quick_mypage_view(request):  # 마이페이지           
-    return render(request, 'asd/main/mypage/user/mypage_mypage.html')
-def quick_panel_view(request):  # 패널정보
-    return render(request, 'asd/main/mypage/panel/mypage_panel.html')
+def quick_mypage_view(request):  # 마이페이지 
+    panels = Panel.objects.all()          
+    return render(request, 'asd/mypage/user/mypage_mypage.html', {'panels': panels})
 def quick_recent_view(request):  # 최근접속 
     return render(request, 'asd/main/basic/main_recent.html')
 def quick_contact_view(request):  # 문의방법
@@ -56,35 +55,7 @@ def down_sitemap_view(request):  # 사이트맵
 ## 회원가입
 # 회원가입 창
 def signup_view(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('로그인')  # 수정된 이름에 맞춰서 변경해 주세요.
-    else:
-        form = SignUpForm()
-    
     return render(request, 'asd/user/basic/signup.html', {'form': form})
-
-# 중복확인_아이디
-@csrf_exempt
-def signup_duplicate_id(request):
-    if request.method == 'POST':
-        username = request.POST.get('username', None)
-        if username and SignUp_User.objects.filter(username=username).exists():
-            return JsonResponse({'exists': True})
-        return JsonResponse({'exists': False})
-    return JsonResponse({'error': 'Invalid request method'}, status=400)
-
-# 중복확인_이메일
-@csrf_exempt
-def signup_duplicate_email(request):
-    if request.method == 'POST':
-        useremail = request.POST.get('email', None)
-        if useremail and SignUp_User.objects.filter(email=useremail).exists():
-            return JsonResponse({'exists': True})
-        return JsonResponse({'exists': False})
-    return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 #---------------------------------------------------------------
 
@@ -140,19 +111,19 @@ def modify_user_view(request):
 ## 마이페이지 - 패널
 
 # 패널정보조회
-@login_required
-def search_panel_view(request):
-    return render(request, 'asd/mypage/panel/search_panel.html')
-
-#본인확인_패널
-@login_required
-def confirm_pw_panel_view(request):
-    return render(request, 'asd/mypage/panel/confirm_pw_panel.html')
+def search_panel_view(request, pk):
+    panel = get_object_or_404(Panel, pk=pk)
+    return render(request, 'asd/mypage/panel/search_panel.html', {'panel': panel})
 
 #패널정보수정
-@login_required
-def modify_panel_view(request):
-    return render(request, 'asd/mypage/panel/modify_panel.html')
-
-
+def modify_panel_view(request, pk):
+    panel = get_object_or_404(Panel, pk=pk)
+    if request.method == "POST":
+        form = PanelForm(request.POST, instance=panel)
+        if form.is_valid():
+            form.save()
+            return redirect('mypage')
+    else:
+        form = PanelForm(instance=panel)
+    return render(request, 'asd/mypage/panel/modify_panel.html', {'form': form})
 #---------------------------------------------------------------
